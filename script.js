@@ -197,16 +197,16 @@ document.addEventListener('DOMContentLoaded', () => {
         switch (true) {
             case (winPercentage >= 0 && winPercentage <= 25):
                 badgeType = 'stone';
-           
+           break;
             case (winPercentage > 25 && winPercentage <= 50):
                 badgeType = 'bronze';
-         
+                break;
             case (winPercentage > 50 && winPercentage <= 75):
                 badgeType = 'iron';
-            
+                break;
             case (winPercentage > 75 && winPercentage <= 100):
                 badgeType = 'silicon';
-               
+               break;
         }
 
         return badgeType;
