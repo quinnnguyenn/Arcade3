@@ -4,6 +4,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function startGuessingGame() { //starts the Guessing game
         let name;
+        let gameWins = 0;
+        let gamePlayed = 0;
+
         while (!name) {
             name = prompt("Hi! What's your name?"); //asks user for their name
             if (!name) {
@@ -27,6 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 guessCount++;
                 if (userGuess === randomNumber) {
                     alert(`You guessed it in ${guessCount} guesses!`); //player guesses right
+                    gameWins++;
                     totalWins++;
                     break;
                 } else if (userGuess > randomNumber) {
@@ -35,13 +39,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     userGuess = prompt("Guess was too low, guess again!");
                 }
             }
+            gamePlayed++;
             totalGamesPlayed++;
             if (confirm(`${name}, would you like to keep playing this game?`)) {
                 playGame();
             } else if (confirm(`${name}, would you like to pick another game to play?`)) { //current game ends
-            
+                // do nothing
             } else {
-                alert(`See you later, ${name}! You won ${totalWins} time(s). You earned a ${getBadgeType()} badge!`);
+                alert(`See you later, ${name}! You won ${gameWins} time(s). You earned a ${getBadgeType(gameWins, gamePlayed)} badge!`);
                 displayStats(name);
             }
         }
@@ -52,6 +57,8 @@ document.addEventListener('DOMContentLoaded', () => {
         let wins = 0;
         let losses = 0;
         let name;
+        let gameWins = 0;
+        let gamePlayed = 0;
 
         function playerName() {
             while (!name) {
@@ -91,6 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (outcome === "win") {
                 wins++;
+                gameWins++;
                 totalWins++;
             } else {
                 losses++;
@@ -99,25 +107,29 @@ document.addEventListener('DOMContentLoaded', () => {
             alert(`${name}, you picked ${guess}. The sum is ${result}, you ${outcome}!`);
             alert(`Score: Wins: ${wins} - Losses: ${losses}`); //game score
 
+            gamePlayed++;
             totalGamesPlayed++;
             if (confirm(`Do you want to play again ${name}?`)) {
                 playGame();
             } else if (confirm(`${name}, would you like to pick another game to play?`)) { //game ends
-               
+                // do nothing
             } else {
-                alert(`See you later, ${name}! You won ${totalWins} time(s). You earned a ${getBadgeType()} badge!`);
+                alert(`See you later, ${name}! You won ${gameWins} time(s). You earned a ${getBadgeType(gameWins, gamePlayed)} badge!`);
                 displayStats(name);
             }
         }
         playGame();
     };
 
-    const startBearNinjaHunterGame = () => {  //starts bear ninja hunter game
+    const startBearNinjaHunterGame = () => { //starts bear ninja hunter game
         function toForcedCase(input) {
             return input.charAt(0).toUpperCase() + input.slice(1).toLowerCase();
         }
 
         let name;
+        let gameWins = 0;
+        let gamePlayed = 0;
+
         while (!name) {
             name = prompt('Welcome to Bear Ninja Hunter! Please enter your name to get started:'); //asks for your name
             if (!name) {
@@ -146,6 +158,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 case 'NinjaBear':
                 case 'HunterNinja':
                     outcome = 2;
+                    gameWins++;
                     totalWins++;
                     break;
                 case 'BearNinja':
@@ -163,43 +176,45 @@ document.addEventListener('DOMContentLoaded', () => {
                 message += "\nYou lose!";
             }
             alert(message);
+            gamePlayed++;
             totalGamesPlayed++;
             if (confirm(`${name}, would you like to keep playing this game?`)) {
                 playGame();
             } else if (confirm(`${name}, would you like to pick another game to play?`)) { //game ends
-                
+                // do nothing
             } else {
-                alert(`See you later, ${name}! You won ${totalWins} time(s). You earned a ${getBadgeType()} badge!`);
+                alert(`See you later, ${name}! You won ${gameWins} time(s). You earned a ${getBadgeType(gameWins, gamePlayed)} badge!`);
                 displayStats(name);
             }
         }
         playGame();
     };
 
-    function getBadgeType() {
-        let winPercentage = (totalWins / totalGamesPlayed) * 100; //calculate badegs
-        let badgeType //declare badges
+    function getBadgeType(gameWins, gamePlayed) { 
+        let winPercentage = (gameWins / gamePlayed) * 100; //calculate badegs
+        let badgeType; //declare badge type
 
         switch (true) {
             case (winPercentage >= 0 && winPercentage <= 25):
                 badgeType = 'stone';
+           
             case (winPercentage > 25 && winPercentage <= 50):
                 badgeType = 'bronze';
-            
+         
             case (winPercentage > 50 && winPercentage <= 75):
                 badgeType = 'iron';
+            
             case (winPercentage > 75 && winPercentage <= 100):
                 badgeType = 'silicon';
-            
+               
         }
-
 
         return badgeType;
     }
 
-    function displayStats(name) {
+    function displayStats(name) { 
         let winPercentage = (totalWins / totalGamesPlayed) * 100; //average percent of wins 
-
+ 
         let statsTable = `
             <table border="1">
                 <tr>
@@ -213,12 +228,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     <td>${winPercentage.toFixed(2)}%</td>
                 </tr>
             </table>
-        `;  //the table
+        `; //the table
 
         document.getElementById('stats-container').innerHTML = statsTable;
     }
 
-    function openGame(gameId) {  //function to link the game to each button
+    function openGame(gameId) { //function to link the game to each button
         const games = document.querySelectorAll('.game-container');
         if (gameId === 'game1') {
             startGuessingGame();
